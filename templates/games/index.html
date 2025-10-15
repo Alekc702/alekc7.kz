@@ -71,7 +71,7 @@
         {% for game in games %}
             <div class="game-card" data-game-id="{{ game.id }}">
                 {% if game.cover %}
-                    <img src="{{ game.cover.url }}" alt="{{ game.title }}">
+                    <img src="{{ game.cover.url }}" alt="{{ game.title }}" data-fallback="{% static 'images/placeholder_cover.svg' %}" onerror="this.onerror=null; this.src=this.dataset.fallback;">
                 {% else %}
                     <div class="game-placeholder">
                         <span>🎮</span>

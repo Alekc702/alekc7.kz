@@ -13,7 +13,7 @@
     <div class="detail-content">
         <div class="detail-image">
             {% if game.cover %}
-                <img src="{{ game.cover.url }}" alt="{{ game.title }}">
+                <img src="{{ game.cover.url }}" alt="{{ game.title }}" data-fallback="{% static 'images/placeholder_cover.svg' %}" onerror="this.onerror=null; this.src=this.dataset.fallback;">
             {% else %}
                 <div class="game-placeholder-large">
                     <span>🎮</span>
