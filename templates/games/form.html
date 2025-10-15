@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ action }} игру - Энциклопедия Разработки Игр{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>{{ action }} игру</h1>
+
+    <form method="POST" enctype="multipart/form-data" id="gameForm">
+        {% csrf_token %}
+        
+        {% if form.errors %}
+            <div class="form-errors">
+                <p>Пожалуйста, исправьте следующие ошибки:</p>
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ field.label }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}:</label>
+            {{ form.title }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.release_year.id_for_label }}">{{ form.release_year.label }}:</label>
+            {{ form.release_year }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}:</label>
+            {{ form.description }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.studio.id_for_label }}">{{ form.studio.label }}:</label>
+            {{ form.studio }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.engine.id_for_label }}">{{ form.engine.label }}:</label>
+            {{ form.engine }}
+        </div>
+
+        <div class="form-group">
+            <label>{{ form.platforms.label }}:</label>
+            <div class="checkbox-group">
+                {{ form.platforms }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.cover.id_for_label }}">{{ form.cover.label }}:</label>
+            {{ form.cover }}
+            {% if game.cover %}
+                <div class="current-image">
+                    <p>Текущее изображение:</p>
+                    <img src="{{ game.cover.url }}" alt="{{ game.title }}" style="max-width: 200px;">
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">💾 Сохранить</button>
+            <a href="{% if game %}{% url 'game_detail' game.id %}{% else %}{% url 'index' %}{% endif %}" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

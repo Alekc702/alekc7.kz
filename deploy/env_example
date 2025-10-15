@@ -1,0 +1,12 @@
+# Example environment file for /etc/default/mylibrary
+# Copy this to /etc/default/mylibrary on the VPS and edit values
+
+DJANGO_SECRET_KEY='replace-this-with-a-very-long-random-string'
+DJANGO_DEBUG='False'
+DJANGO_ALLOWED_HOSTS='alekc7.kz,www.alekc7.kz'
+# If using PostgreSQL, set DATABASE_URL like below:
+# DATABASE_URL='postgres://user:password@localhost:5432/mylibrary'
+
+# Optional: additional environment variables
+# EMAIL_HOST=... 
+# EMAIL_PORT=...

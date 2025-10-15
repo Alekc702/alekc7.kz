@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Удалить {{ game.title }} - Энциклопедия Разработки Игр{% endblock %}
+
+{% block content %}
+<div class="confirm-delete-container">
+    <h1>Подтвердите удаление</h1>
+
+    <div class="warning-box">
+        <p>⚠️ Вы уверены, что хотите удалить игру <strong>{{ game.title }}</strong>?</p>
+        <p>Это действие нельзя отменить!</p>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-danger">🗑️ Да, удалить</button>
+            <a href="{% url 'game_detail' game.id %}" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+

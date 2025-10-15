@@ -1,0 +1,31 @@
+[Unit]
+Description=gunicorn daemon for mylibrary
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/mylibrary
+EnvironmentFile=/var/www/mylibrary/.env
+ExecStart=/var/www/mylibrary/venv/bin/gunicorn \
+    --access-logfile - \
+    --workers 3 \
+    --bind unix:/run/gunicorn-mylibrary.sock \
+    mylibrary.wsgi:application
+
+[Unit]
+Description=gunicorn daemon for mylibrary
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/mylibrary
+# Adjust PATH to point to your virtualenv
+Environment="PATH=/var/www/mylibrary/venv/bin"
+EnvironmentFile=/etc/default/mylibrary
+Environment="DJANGO_SETTINGS_MODULE=mylibrary.settings"
+ExecStart=/var/www/mylibrary/venv/bin/gunicorn --workers 3 --bind unix:/run/gunicorn-mylibrary.sock mylibrary.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

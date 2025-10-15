@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ game.title }} - Энциклопедия Разработки Игр{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+    <div class="detail-header">
+        <h1>{{ game.title }}</h1>
+        <p class="game-year-large">Год выпуска: {{ game.release_year }}</p>
+    </div>
+
+    <div class="detail-content">
+        <div class="detail-image">
+            {% if game.cover %}
+                <img src="{{ game.cover.url }}" alt="{{ game.title }}">
+            {% else %}
+                <div class="game-placeholder-large">
+                    <span>🎮</span>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="detail-info">
+            <div class="info-section">
+                <h2>📋 Описание разработки</h2>
+                <p>{{ game.description }}</p>
+            </div>
+
+            <div class="info-section">
+                <h2>🏢 Студия</h2>
+                <p><strong>{{ game.studio.name }}</strong></p>
+                <p>Страна: {{ game.studio.country }}</p>
+                <p>Год основания: {{ game.studio.year_founded }}</p>
+            </div>
+
+            {% if game.engine %}
+                <div class="info-section">
+                    <h2>⚙️ Игровой движок</h2>
+                    <p>{{ game.engine.name }}</p>
+                </div>
+            {% endif %}
+
+            {% if game.platforms.all %}
+                <div class="info-section">
+                    <h2>🎯 Платформы</h2>
+                    <div class="platforms-list">
+                        {% for platform in game.platforms.all %}
+                            <span class="platform-badge-large">{{ platform.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="info-section metadata">
+                <p><small>Добавлено: {{ game.created_at|date:"d.m.Y H:i" }}</small></p>
+                <p><small>Обновлено: {{ game.updated_at|date:"d.m.Y H:i" }}</small></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a href="{% url 'index' %}" class="btn btn-secondary">← Назад к списку</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'game_update' game.id %}" class="btn btn-primary">✏️ Редактировать</a>
+            <a href="{% url 'game_delete' game.id %}" class="btn btn-danger">🗑️ Удалить</a>
+        {% endif %}
+        <a href="/api/games/{{ game.id }}/" class="btn btn-info" target="_blank">📊 API JSON</a>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,157 @@
+[
+  {
+    "model": "games.studio",
+    "pk": 1,
+    "fields": {
+      "name": "Valve Corporation",
+      "country": "США",
+      "year_founded": 1996
+    }
+  },
+  {
+    "model": "games.studio",
+    "pk": 2,
+    "fields": {
+      "name": "CD Projekt RED",
+      "country": "Польша",
+      "year_founded": 2002
+    }
+  },
+  {
+    "model": "games.studio",
+    "pk": 3,
+    "fields": {
+      "name": "Rockstar North",
+      "country": "Великобритания",
+      "year_founded": 1988
+    }
+  },
+  {
+    "model": "games.engine",
+    "pk": 1,
+    "fields": {
+      "name": "Source Engine",
+      "description": "Игровой движок, разработанный Valve Corporation"
+    }
+  },
+  {
+    "model": "games.engine",
+    "pk": 2,
+    "fields": {
+      "name": "REDengine",
+      "description": "Собственный движок CD Projekt RED"
+    }
+  },
+  {
+    "model": "games.engine",
+    "pk": 3,
+    "fields": {
+      "name": "RAGE (Rockstar Advanced Game Engine)",
+      "description": "Движок от Rockstar Games"
+    }
+  },
+  {
+    "model": "games.engine",
+    "pk": 4,
+    "fields": {
+      "name": "Unity",
+      "description": "Популярный кроссплатформенный игровой движок"
+    }
+  },
+  {
+    "model": "games.engine",
+    "pk": 5,
+    "fields": {
+      "name": "Unreal Engine",
+      "description": "Мощный игровой движок от Epic Games"
+    }
+  },
+  {
+    "model": "games.platform",
+    "pk": 1,
+    "fields": {
+      "name": "PC"
+    }
+  },
+  {
+    "model": "games.platform",
+    "pk": 2,
+    "fields": {
+      "name": "PlayStation 5"
+    }
+  },
+  {
+    "model": "games.platform",
+    "pk": 3,
+    "fields": {
+      "name": "PlayStation 4"
+    }
+  },
+  {
+    "model": "games.platform",
+    "pk": 4,
+    "fields": {
+      "name": "Xbox Series X/S"
+    }
+  },
+  {
+    "model": "games.platform",
+    "pk": 5,
+    "fields": {
+      "name": "Xbox One"
+    }
+  },
+  {
+    "model": "games.platform",
+    "pk": 6,
+    "fields": {
+      "name": "Nintendo Switch"
+    }
+  },
+  {
+    "model": "games.game",
+    "pk": 1,
+    "fields": {
+      "title": "Half-Life 2",
+      "release_year": 2004,
+      "description": "Революционный шутер от первого лица, продолжение культовой игры Half-Life. Игра получила множество наград за инновационную физику, графику и геймплей.",
+      "studio": 1,
+      "engine": 1,
+      "platforms": [1],
+      "cover": "",
+      "created_at": "2025-10-11T10:00:00Z",
+      "updated_at": "2025-10-11T10:00:00Z"
+    }
+  },
+  {
+    "model": "games.game",
+    "pk": 2,
+    "fields": {
+      "title": "The Witcher 3: Wild Hunt",
+      "release_year": 2015,
+      "description": "Эпическая ролевая игра в открытом мире, основанная на серии книг Анджея Сапковского. Игра получила более 250 наград Game of the Year.",
+      "studio": 2,
+      "engine": 2,
+      "platforms": [1, 2, 3, 4, 5, 6],
+      "cover": "",
+      "created_at": "2025-10-11T10:00:00Z",
+      "updated_at": "2025-10-11T10:00:00Z"
+    }
+  },
+  {
+    "model": "games.game",
+    "pk": 3,
+    "fields": {
+      "title": "Grand Theft Auto V",
+      "release_year": 2013,
+      "description": "Масштабная экшн-игра в открытом мире, рассказывающая истории трёх преступников в вымышленном штате Сан-Андреас. Одна из самых продаваемых игр всех времён.",
+      "studio": 3,
+      "engine": 3,
+      "platforms": [1, 2, 3, 4, 5],
+      "cover": "",
+      "created_at": "2025-10-11T10:00:00Z",
+      "updated_at": "2025-10-11T10:00:00Z"
+    }
+  }
+]
+

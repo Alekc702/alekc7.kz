@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ user.username }} - Личный кабинет{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+    <div class="detail-header">
+        <h1>👤 Личный кабинет</h1>
+        <p class="game-year-large">Добро пожаловать, {{ user.username }}!</p>
+    </div>
+
+    <div class="welcome-message">
+        <h2>🎮 Привет, {{ user.first_name|default:user.username }}!</h2>
+        <p>Спасибо, что вы с нами. Вы вошли в систему как <strong>{{ user.username }}</strong></p>
+    </div>
+
+    <div class="info-section">
+        <h2>📊 Информация об аккаунте</h2>
+        <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email|default:"Не указан" }}</p>
+        <p><strong>Дата регистрации:</strong> {{ user.date_joined|date:"d.m.Y H:i" }}</p>
+        <p><strong>Последний вход:</strong> {{ user.last_login|date:"d.m.Y H:i" }}</p>
+        {% if user.is_staff %}
+            <p><strong>Статус:</strong> <span style="color: var(--accent-color);">Администратор ⭐</span></p>
+        {% else %}
+            <p><strong>Статус:</strong> Пользователь</p>
+        {% endif %}
+    </div>
+
+    <div class="info-section">
+        <h2>🎯 Ваши возможности</h2>
+        <ul style="list-style: none; padding: 0;">
+            <li style="padding: 0.5rem 0;">✅ Просмотр всех игр в энциклопедии</li>
+            <li style="padding: 0.5rem 0;">✅ Добавление новых игр</li>
+            <li style="padding: 0.5rem 0;">✅ Редактирование существующих игр</li>
+            <li style="padding: 0.5rem 0;">✅ Удаление игр</li>
+            {% if user.is_staff %}
+                <li style="padding: 0.5rem 0;">✅ Доступ к панели администратора</li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <div class="action-buttons">
+        <a href="{% url 'index' %}" class="btn btn-primary">📚 К энциклопедии</a>
+        <a href="{% url 'game_create' %}" class="btn btn-primary">➕ Добавить игру</a>
+        {% if user.is_staff %}
+            <a href="/admin/" class="btn btn-info" target="_blank">⚙️ Админ-панель</a>
+        {% endif %}
+        <a href="{% url 'logout' %}" class="btn btn-secondary">🚪 Выход</a>
+    </div>
+</div>
+{% endblock %}

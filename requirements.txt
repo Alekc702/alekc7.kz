@@ -1,0 +1,9 @@
+Django==4.2.7
+gunicorn==21.2.0
+whitenoise==6.6.0
+Pillow==10.1.0
+
+# Optional production DB helper
+dj-database-url==1.0.0
+# If you plan to use PostgreSQL in production uncomment or keep this
+psycopg2-binary==2.9.10

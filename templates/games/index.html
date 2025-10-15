@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Главная - Энциклопедия Разработки Игр{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h1>🎮 Энциклопедия Разработки Игр</h1>
+    <p class="hero-subtitle">Откройте для себя лучшие игры, студии и технологии разработки</p>
+</div>
+
+<!-- Фильтры -->
+<div class="filters-container">
+    <h2>Фильтры</h2>
+    <form method="GET" id="filterForm" class="filters-form">
+        <div class="filter-group">
+            <label for="studio">Студия:</label>
+            <select name="studio" id="studio" class="filter-select">
+                <option value="">Все студии</option>
+                {% for studio in studios %}
+                    <option value="{{ studio.id }}" {% if request.GET.studio == studio.id|stringformat:"s" %}selected{% endif %}>
+                        {{ studio.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="engine">Движок:</label>
+            <select name="engine" id="engine" class="filter-select">
+                <option value="">Все движки</option>
+                {% for engine in engines %}
+                    <option value="{{ engine.id }}" {% if request.GET.engine == engine.id|stringformat:"s" %}selected{% endif %}>
+                        {{ engine.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="year">Год выпуска:</label>
+            <select name="year" id="year" class="filter-select">
+                <option value="">Все годы</option>
+                {% for year in years %}
+                    <option value="{{ year }}" {% if request.GET.year == year|stringformat:"s" %}selected{% endif %}>
+                        {{ year }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button type="submit" class="btn btn-primary">Применить</button>
+            <a href="{% url 'index' %}" class="btn btn-secondary">Сбросить</a>
+        </div>
+    </form>
+</div>
+
+<!-- Счетчик игр -->
+<div class="games-count">
+    <p>Найдено игр: <strong>{{ games.count }}</strong></p>
+</div>
+
+<!-- Сетка игр -->
+{% if games %}
+    <div class="games-grid">
+        {% for game in games %}
+            <div class="game-card" data-game-id="{{ game.id }}">
+                {% if game.cover %}
+                    <img src="{{ game.cover.url }}" alt="{{ game.title }}">
+                {% else %}
+                    <div class="game-placeholder">
+                        <span>🎮</span>
+                    </div>
+                {% endif %}
+                <div class="game-card-content">
+                    <h3><a href="{% url 'game_detail' game.id %}">{{ game.title }}</a></h3>
+                    <p class="game-year">📅 {{ game.release_year }}</p>
+                    <p class="game-studio">🏢 {{ game.studio.name }}</p>
+                    {% if game.engine %}
+                        <p class="game-engine">⚙️ {{ game.engine.name }}</p>
+                    {% endif %}
+                    {% if game.platforms.all %}
+                        <div class="game-platforms">
+                            {% for platform in game.platforms.all %}
+                                <span class="platform-badge">{{ platform.name }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="no-results">
+        <p>😔 Игры не найдены. Попробуйте изменить фильтры или <a href="{% url 'index' %}">сбросить</a> их.</p>
+    </div>
+{% endif %}
+{% endblock %}
+
