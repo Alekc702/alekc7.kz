@@ -40,6 +40,13 @@ html.no-animations *, html.no-animations *::before, html.no-animations *::after 
 html.no-animations .game-card {
     animation: none !important;
 }
+html.no-animations main,
+html.no-animations header,
+html.no-animations .hero-section,
+html.no-animations .filters-container,
+html.no-animations .games-count {
+    animation: none !important;
+}
 
 /* Header Styles */
 header {

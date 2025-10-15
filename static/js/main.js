@@ -2,12 +2,11 @@
 
 // Smooth scroll to top button
 document.addEventListener('DOMContentLoaded', function() {
-    // If we arrived here after a filter change, remove the suppression flag and class
+    // If we arrived here after a filter change, remove the suppression flag (but keep class for this page)
     try {
         if (sessionStorage.getItem('suppressAnimations') === '1') {
             sessionStorage.removeItem('suppressAnimations');
-            // Remove the class on next tick to keep initial paint without animations
-            setTimeout(() => document.documentElement.classList.remove('no-animations'), 0);
+            // Keep documentElement.no-animations for the entire lifecycle of this page
         }
     } catch (e) {
         // ignore storage errors
@@ -50,27 +49,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Filter form auto-submit
+    // Filter form behavior (manual submit only)
     const filterForm = document.getElementById('filterForm');
     if (filterForm) {
-        const filterSelects = filterForm.querySelectorAll('.filter-select');
-        
-        filterSelects.forEach(select => {
-            select.addEventListener('change', function() {
-                // Add loading indicator
-                const submitBtn = filterForm.querySelector('button[type="submit"]');
-                if (submitBtn) {
-                    submitBtn.innerHTML = '<span class="loading"></span> Загрузка...';
-                }
-                // Suppress animations on next page load so filtering doesn't look like reload animation
-                try { sessionStorage.setItem('suppressAnimations', '1'); } catch (e) {}
-                filterForm.submit();
-            });
-        });
-
-        // Also handle explicit submit button clicks
+        // On explicit submit we suppress animations on the next page
         filterForm.addEventListener('submit', function() {
             try { sessionStorage.setItem('suppressAnimations', '1'); } catch (e) {}
+            const submitBtn = filterForm.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.innerHTML = '<span class="loading"></span> Загрузка...';
+            }
         });
     }
     
