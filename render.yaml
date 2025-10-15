@@ -14,8 +14,8 @@ services:
       - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: DJANGO_ALLOWED_HOSTS
-        # set Render URL and your domain (comma-separated), e.g. "alekc7-kz.onrender.com,mylibrary.kz"
-        value: ""
+        # set Render URL and your domain (comma-separated), e.g. "alekc7-kz.onrender.com,alekc7.kz"
+        value: "alekc7-kz.onrender.com"
       - key: DJANGO_CSRF_TRUSTED_ORIGINS
         # e.g. "https://alekc7-kz.onrender.com,https://mylibrary.kz"
         value: "https://*.onrender.com"
@@ -23,6 +23,8 @@ services:
         fromDatabase: true
       - key: DJANGO_MEDIA_ROOT
         value: /var/data/media
+      - key: DJANGO_SERVE_MEDIA
+        value: True
     disk:
       name: media
       mountPath: /var/data
