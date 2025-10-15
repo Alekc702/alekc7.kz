@@ -10,7 +10,7 @@ services:
       - key: PYTHON_VERSION
         value: 3.11
       - key: DJANGO_DEBUG
-        value: False
+        value: "False"
       - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: DJANGO_ALLOWED_HOSTS
@@ -20,11 +20,11 @@ services:
         # e.g. "https://alekc7-kz.onrender.com,https://mylibrary.kz"
         value: "https://*.onrender.com"
       - key: DATABASE_URL
-        fromDatabase: true
+        fromDatabase: alekc7-kz-db
       - key: DJANGO_MEDIA_ROOT
         value: /var/data/media
       - key: DJANGO_SERVE_MEDIA
-        value: True
+        value: "True"
     disk:
       name: media
       mountPath: /var/data
