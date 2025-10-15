@@ -67,6 +67,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 filterForm.submit();
             });
         });
+
+        // Also handle explicit submit button clicks
+        filterForm.addEventListener('submit', function() {
+            try { sessionStorage.setItem('suppressAnimations', '1'); } catch (e) {}
+        });
     }
     
     // Add animation delay to game cards
