@@ -106,9 +106,9 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL = '/media/'
-# On Render free tier local media are ephemeral. To enable persistent storage, set DJANGO_USE_S3=True
-# and configure S3-compatible storage variables below.
-MEDIA_ROOT = BASE_DIR / 'media'
+# On Render: if DJANGO_USE_S3=True, use S3. Otherwise, honor DJANGO_MEDIA_ROOT if provided (e.g., /var/data/media),
+# falling back to a local folder for development.
+MEDIA_ROOT = Path(os.environ.get('DJANGO_MEDIA_ROOT', BASE_DIR / 'media'))
 
 # Optional S3-compatible storage (Cloudflare R2, AWS S3, etc.)
 USE_S3 = os.environ.get('DJANGO_USE_S3', 'False') == 'True'
