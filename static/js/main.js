@@ -2,6 +2,16 @@
 
 // Smooth scroll to top button
 document.addEventListener('DOMContentLoaded', function() {
+    // If we arrived here after a filter change, remove the suppression flag and class
+    try {
+        if (sessionStorage.getItem('suppressAnimations') === '1') {
+            sessionStorage.removeItem('suppressAnimations');
+            // Remove the class on next tick to keep initial paint without animations
+            setTimeout(() => document.documentElement.classList.remove('no-animations'), 0);
+        }
+    } catch (e) {
+        // ignore storage errors
+    }
     
     // Form validation
     const gameForm = document.getElementById('gameForm');
@@ -52,6 +62,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (submitBtn) {
                     submitBtn.innerHTML = '<span class="loading"></span> Загрузка...';
                 }
+                // Suppress animations on next page load so filtering doesn't look like reload animation
+                try { sessionStorage.setItem('suppressAnimations', '1'); } catch (e) {}
                 filterForm.submit();
             });
         });

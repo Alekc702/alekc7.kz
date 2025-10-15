@@ -32,6 +32,15 @@ body {
     flex-direction: column;
 }
 
+/* Disable animations/transitions when requested (e.g., after filter change) */
+html.no-animations *, html.no-animations *::before, html.no-animations *::after {
+    animation: none !important;
+    transition: none !important;
+}
+html.no-animations .game-card {
+    animation: none !important;
+}
+
 /* Header Styles */
 header {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);

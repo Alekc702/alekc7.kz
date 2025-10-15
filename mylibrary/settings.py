@@ -1,9 +1,11 @@
 import os
 from pathlib import Path
-<<<<<<< Updated upstream
-=======
-import dj_database_url
->>>>>>> Stashed changes
+
+# Optional: use dj_database_url in production (installed from requirements on Render)
+try:
+    import dj_database_url  # type: ignore
+except Exception:  # package may be missing in a local venv
+    dj_database_url = None
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -58,23 +60,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mylibrary.wsgi.application'
 
-<<<<<<< Updated upstream
-DATABASES = {
-    'default': {
-=======
 # Database
-# Use DATABASE_URL if provided (e.g., on Render/Heroku), otherwise fallback to sqlite3
-DATABASES = {
-    'default': dj_database_url.parse(
-        os.environ.get('DATABASE_URL', ''),
-        conn_max_age=600,
-        ssl_require=not (os.environ.get('DJANGO_DEBUG', 'True') == 'True')
-    ) if os.environ.get('DATABASE_URL') else {
->>>>>>> Stashed changes
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# If DATABASE_URL is set and dj_database_url is available, use it; otherwise fallback to sqlite3
+if os.environ.get('DATABASE_URL') and dj_database_url is not None:
+    DATABASES = {
+        'default': dj_database_url.parse(
+            os.environ['DATABASE_URL'],
+            conn_max_age=600,
+            ssl_require=not (os.environ.get('DJANGO_DEBUG', 'True') == 'True')
+        )
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -104,19 +106,13 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL = '/media/'
-<<<<<<< Updated upstream
-MEDIA_ROOT = BASE_DIR / 'media'
-=======
 MEDIA_ROOT = Path(os.environ.get('DJANGO_MEDIA_ROOT', BASE_DIR / 'media'))
->>>>>>> Stashed changes
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # WhiteNoise settings
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-<<<<<<< Updated upstream
-=======
 # Security & proxy headers (Render/Nginx)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = not DEBUG
@@ -132,6 +128,4 @@ if _csrf_from_env:
 else:
     # By default trust Render subdomains; add your custom domain via env in production
     CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com']
-
->>>>>>> Stashed changes
  

@@ -7,6 +7,16 @@
     <title>{% block title %}Энциклопедия Разработки Игр{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">
+    <script>
+        // Apply early to avoid any initial animations after filter change
+        (function(){
+            try {
+                if (sessionStorage.getItem('suppressAnimations') === '1') {
+                    document.documentElement.classList.add('no-animations');
+                }
+            } catch (e) {}
+        })();
+    </script>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
