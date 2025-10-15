@@ -20,7 +20,8 @@ services:
         # e.g. "https://alekc7-kz.onrender.com,https://mylibrary.kz"
         value: "https://*.onrender.com"
       - key: DATABASE_URL
-        fromDatabase: alekc7-kz-db
+        fromDatabase:
+          name: alekc7-kz-db
       - key: DJANGO_MEDIA_ROOT
         value: /var/data/media
       - key: DJANGO_SERVE_MEDIA
