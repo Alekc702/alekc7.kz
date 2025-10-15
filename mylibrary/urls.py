@@ -10,5 +10,10 @@ urlpatterns = [
     path('users/', include('users.urls')),
 ]
 
-if settings.DEBUG or os.environ.get('DJANGO_SERVE_MEDIA', 'False') == 'True':
+# Serve media files:
+# - Always in DEBUG
+# - In production when not using S3 storage and MEDIA_URL is a relative path (starts with '/')
+# This avoids relying on an environment flag and ensures covers upload work on Render with a mounted disk.
+USE_S3 = getattr(settings, 'USE_S3', False)
+if (settings.DEBUG or not USE_S3) and settings.MEDIA_URL.startswith('/'):
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
