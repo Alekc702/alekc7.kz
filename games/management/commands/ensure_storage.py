@@ -22,6 +22,11 @@ class Command(BaseCommand):
 
         if media_root:
             os.makedirs(media_root, exist_ok=True)
+            # Ensure default upload subdir exists
+            try:
+                os.makedirs(os.path.join(media_root, 'game_covers'), exist_ok=True)
+            except Exception:
+                pass
             try:
                 os.chmod(media_root, 0o755)
             except Exception:
@@ -31,6 +36,6 @@ class Command(BaseCommand):
         if created:
             self.stdout.write(self.style.SUCCESS('Created/verified directories:'))
             for p in created:
-                self.stdout.write(' - ' + p)
+                self.stdout.write(f" - {str(p)}")
         else:
             self.stdout.write(self.style.WARNING('STATIC_ROOT or MEDIA_ROOT not set in settings.'))
