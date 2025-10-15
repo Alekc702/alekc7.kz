@@ -110,6 +110,12 @@ MEDIA_URL = '/media/'
 # falling back to a local folder for development.
 MEDIA_ROOT = Path(os.environ.get('DJANGO_MEDIA_ROOT', BASE_DIR / 'media'))
 
+# Make sure MEDIA_ROOT exists at startup (harmless if already exists)
+try:
+    MEDIA_ROOT.mkdir(parents=True, exist_ok=True)  # type: ignore[attr-defined]
+except Exception:
+    pass
+
 # Optional S3-compatible storage (Cloudflare R2, AWS S3, etc.)
 USE_S3 = os.environ.get('DJANGO_USE_S3', 'False') == 'True'
 if USE_S3:
