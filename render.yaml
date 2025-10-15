@@ -2,7 +2,7 @@ services:
   - type: web
     name: alekc7-kz
     env: python
-  plan: starter
+    plan: starter
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
     startCommand: gunicorn mylibrary.wsgi --bind 0.0.0.0:$PORT --workers 3
     autoDeploy: true
@@ -27,7 +27,7 @@ services:
         value: "True"
       - key: DJANGO_MEDIA_ROOT
         value: /var/data/media
-  # Optional: enable S3-compatible media storage
+      # Optional: enable S3-compatible media storage
       - key: DJANGO_USE_S3
         value: "False"
       - key: AWS_STORAGE_BUCKET_NAME
