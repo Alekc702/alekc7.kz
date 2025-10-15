@@ -3,6 +3,10 @@
 
 {% block title %}Главная - Энциклопедия Разработки Игр{% endblock %}
 
+{% block html_attrs %}
+    {% if request.GET.studio or request.GET.engine or request.GET.year %} class="no-animations"{% endif %}
+{% endblock %}
+
 {% block content %}
 <div class="hero-section">
     <h1>🎮 Энциклопедия Разработки Игр</h1>
