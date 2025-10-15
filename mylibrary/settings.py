@@ -106,9 +106,28 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 MEDIA_URL = '/media/'
-# On Render free tier we don't have persistent disk; media will be ephemeral.
-# For real persistence, upgrade plan or use cloud storage (S3, Cloudflare R2, etc.).
+# On Render free tier local media are ephemeral. To enable persistent storage, set DJANGO_USE_S3=True
+# and configure S3-compatible storage variables below.
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Optional S3-compatible storage (Cloudflare R2, AWS S3, etc.)
+USE_S3 = os.environ.get('DJANGO_USE_S3', 'False') == 'True'
+if USE_S3:
+    # Minimal config: bucket and credentials
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_ENDPOINT_URL = os.environ.get('AWS_S3_ENDPOINT_URL')  # e.g., https://<accountid>.r2.cloudflarestorage.com
+    AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', '')
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+
+    # Storage settings
+    INSTALLED_APPS.append('storages')
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    AWS_DEFAULT_ACL = None
+    AWS_S3_OBJECT_PARAMETERS = { 'CacheControl': 'max-age=86400' }
+    # Media URL becomes the S3 endpoint + bucket
+    if AWS_S3_ENDPOINT_URL and AWS_STORAGE_BUCKET_NAME:
+        MEDIA_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

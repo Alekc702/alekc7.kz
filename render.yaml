@@ -25,6 +25,19 @@ services:
           property: connectionString
       - key: DJANGO_SERVE_MEDIA
         value: "True"
+      # Optional: enable S3-compatible media storage
+      - key: DJANGO_USE_S3
+        value: "False"
+      - key: AWS_STORAGE_BUCKET_NAME
+        value: ""
+      - key: AWS_S3_ENDPOINT_URL
+        value: ""
+      - key: AWS_S3_REGION_NAME
+        value: ""
+      - key: AWS_ACCESS_KEY_ID
+        value: ""
+      - key: AWS_SECRET_ACCESS_KEY
+        value: ""
 
 databases:
   - name: alekc7-kz-db

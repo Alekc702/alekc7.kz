@@ -7,3 +7,7 @@ Pillow==10.1.0
 dj-database-url==1.0.0
 # If you plan to use PostgreSQL in production uncomment or keep this
 psycopg2-binary==2.9.10
+
+# Media storage on S3-compatible services (Cloudflare R2, AWS S3, etc.)
+django-storages==1.14.2
+boto3==1.34.69
