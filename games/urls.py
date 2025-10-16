@@ -8,6 +8,9 @@ urlpatterns = [
     path('game/<int:pk>/update/', views.game_update, name='game_update'),
     path('game/<int:pk>/delete/', views.game_delete, name='game_delete'),
     
+    # Demo page to test API Key from the browser
+    path('api/demo/', views.api_demo, name='api_demo'),
+    
     # API endpoints
     path('api/games/', views.api_games_list, name='api_games_list'),
     path('api/games/<int:pk>/', views.api_game_detail, name='api_game_detail'),

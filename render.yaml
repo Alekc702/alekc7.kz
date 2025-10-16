@@ -4,7 +4,7 @@ services:
     env: python
     plan: starter
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
-  startCommand: gunicorn mylibrary.wsgi --bind 0.0.0.0:$PORT --workers 3
+    startCommand: gunicorn mylibrary.wsgi --bind 0.0.0.0:$PORT --workers 3
     autoDeploy: true
     envVars:
       - key: PYTHON_VERSION
@@ -14,11 +14,11 @@ services:
       - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: DJANGO_ALLOWED_HOSTS
-        # set Render URL and your domain (comma-separated), e.g. "alekc7-kz.onrender.com,alekc7.kz"
-        value: "alekc7-kz.onrender.com"
+        # set Render URL and your domain (comma-separated)
+        value: "alekc7-kz.onrender.com,alekc7.kz,www.alekc7.kz"
       - key: DJANGO_CSRF_TRUSTED_ORIGINS
-        # e.g. "https://alekc7-kz.onrender.com,https://mylibrary.kz"
-        value: "https://*.onrender.com"
+        # trusted origins for HTTPS
+        value: "https://alekc7-kz.onrender.com,https://alekc7.kz,https://www.alekc7.kz"
       - key: DATABASE_URL
         fromDatabase:
           name: alekc7-kz-db

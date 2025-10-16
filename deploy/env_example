@@ -10,3 +10,7 @@ DJANGO_ALLOWED_HOSTS='alekc7.kz,www.alekc7.kz'
 # Optional: additional environment variables
 # EMAIL_HOST=... 
 # EMAIL_PORT=...
+
+# API access
+# Set a strong random value; clients must send it as header X-API-Key or query param api_key
+DJANGO_API_KEY='change-this-api-key'

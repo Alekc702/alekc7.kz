@@ -58,12 +58,22 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer>
+    <footer class="site-footer">
         <div class="footer-content">
-            <p>@Alekc702</p>
+            <div class="footer-left">
+                <div class="brand">
+                    <span class="logo-mark">🎮</span>
+                    <span class="brand-name">Энциклопедия Игр</span>
+                </div>
+                <div class="meta">© {% now "Y" %} alekc7.kz • Built with Django • Deployed on Render</div>
+            </div>
             <div class="footer-links">
-                <a href="/api/games/">API: Список игр</a>
-                <a href="https://youtu.be/dQw4w9WgXcQ?si=NDMmuo-T1C1Z2Wqa" target="_blank">YouTube</a>
+                <a href="{% url 'index' %}">Главная</a>
+                <a href="/api/demo/">API Demo</a>
+                <a href="/api/games/">API JSON</a>
+                {% if user.is_staff %}<a href="/admin/" target="_blank" rel="noopener">Админка</a>{% endif %}
+                <a href="https://github.com/Alekc702/alekc7.kz" target="_blank" rel="noopener">GitHub</a>
+                <a href="mailto:contact@alekc7.kz">Связаться</a>
             </div>
         </div>
     </footer>

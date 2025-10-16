@@ -16,7 +16,17 @@ DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
 # By default allow localhost and loopback addresses for development.
 # For production set DJANGO_ALLOWED_HOSTS environment variable to a comma-separated list.
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+# Also append RENDER_EXTERNAL_HOSTNAME automatically if present.
+def _csv_env(name: str, default: str = "") -> list[str]:
+    raw = os.environ.get(name, default)
+    return [item.strip() for item in raw.split(',') if item.strip()]
+
+ALLOWED_HOSTS = _csv_env('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1')
+
+# Include Render-provided hostname (e.g., <service>.onrender.com) to prevent DisallowedHost 400s
+_render_host = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if _render_host and _render_host not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(_render_host)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -32,6 +42,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'mylibrary.middleware.ApiKeyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -139,6 +150,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # WhiteNoise settings
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# API key for simple token-based access to JSON endpoints
+# Set DJANGO_API_KEY in the environment to enable access; requests must send this
+# value either as the 'X-API-Key' header or as the 'api_key' query parameter.
+API_KEY = os.environ.get('DJANGO_API_KEY', '').strip()
 
 # Security & proxy headers (Render/Nginx)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

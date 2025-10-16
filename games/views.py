@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from .models import Game, Studio, Engine, Platform
+from .utils import api_key_required
 from .forms import GameForm, StudioForm
 
 
@@ -84,6 +85,7 @@ def game_delete(request, pk):
 
 
 # API Endpoints
+@api_key_required
 def api_games_list(request):
     """API: Список всех игр в формате JSON"""
     games = Game.objects.all().select_related('studio', 'engine').prefetch_related('platforms')
@@ -112,6 +114,7 @@ def api_games_list(request):
     return JsonResponse({'games': data, 'count': len(data)}, safe=False)
 
 
+@api_key_required
 def api_game_detail(request, pk):
     """API: Детали конкретной игры в формате JSON"""
     try:
@@ -141,4 +144,9 @@ def api_game_detail(request, pk):
         return JsonResponse(data)
     except Game.DoesNotExist:
         return JsonResponse({'error': 'Game not found'}, status=404)
+
+
+def api_demo(request):
+    """Простая страница для проверки API-ключа из браузера."""
+    return render(request, 'games/api_demo.html')
 

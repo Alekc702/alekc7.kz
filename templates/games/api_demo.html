@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}API Demo{% endblock %}
+{% block content %}
+<h1>Проверка API-ключа</h1>
+<p>Введите API-ключ и выполните запрос к <code>/api/games/</code>. Результат появится ниже.</p>
+
+<div style="max-width: 720px;">
+  <label for="apiKey">API Key</label>
+  <input id="apiKey" type="password" class="form-control" placeholder="введите ваш ключ" />
+  <small>Ключ передаётся в заголовке X-API-Key.</small>
+
+  <div style="margin-top: 12px; display: flex; gap: 8px;">
+    <button id="btnTest" class="btn btn-primary">Запросить список игр</button>
+    <button id="btnTestId" class="btn btn-secondary">Запросить игру c ID=1</button>
+  </div>
+
+  <pre id="output" style="margin-top: 16px; white-space: pre-wrap; background: #111; color: #ddd; padding: 12px; border-radius: 4px; min-height: 120px;"></pre>
+</div>
+
+<script>
+(function(){
+  const btn = document.getElementById('btnTest');
+  const btnId = document.getElementById('btnTestId');
+  const out = document.getElementById('output');
+  const keyInput = document.getElementById('apiKey');
+
+  async function callApi(url){
+    out.textContent = 'Выполняется запрос: ' + url + '...';
+    const apiKey = keyInput.value.trim();
+    const headers = apiKey ? { 'X-API-Key': apiKey } : {};
+    try {
+      const res = await fetch(url, { headers });
+      const text = await res.text();
+      out.textContent = 'Статус: ' + res.status + '\n' + text;
+    } catch (e) {
+      out.textContent = 'Ошибка запроса: ' + (e && e.message ? e.message : e);
+    }
+  }
+
+  btn.addEventListener('click', function(){
+    callApi('/api/games/');
+  });
+  btnId.addEventListener('click', function(){
+    callApi('/api/games/1/');
+  });
+})();
+</script>
+{% endblock %}
