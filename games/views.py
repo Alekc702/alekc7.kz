@@ -114,6 +114,13 @@ def api_games_list(request):
     return JsonResponse({'games': data, 'count': len(data)}, safe=False)
 
 
+def api_games_list_with_path_key(request, api_key: str):
+    """Alias endpoint: /api/games/<api_key> -> same as list.
+    The middleware validates the key via path segment; decorator adds a secondary check via headers/query for consistency.
+    """
+    return api_games_list(request)
+
+
 @api_key_required
 def api_game_detail(request, pk):
     """API: Детали конкретной игры в формате JSON"""

@@ -13,6 +13,8 @@ urlpatterns = [
     
     # API endpoints
     path('api/games/', views.api_games_list, name='api_games_list'),
+    # path-based key: /api/games/<key>/ -> same as list, key is validated by middleware
+    path('api/games/<str:api_key>/', views.api_games_list_with_path_key, name='api_games_list_with_path_key'),
     path('api/games/<int:pk>/', views.api_game_detail, name='api_game_detail'),
 ]
 

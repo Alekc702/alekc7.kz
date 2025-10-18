@@ -19,6 +19,10 @@ def api_key_required(view_func):
 
     @wraps(view_func)
     def _wrapped(request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        # If middleware already authenticated, allow
+        if getattr(request, '_api_key_authenticated', False):
+            return view_func(request, *args, **kwargs)
+
         configured = getattr(settings, 'API_KEY', '').strip()
         provided = _extract_api_key(request)
 
