@@ -31,10 +31,9 @@ python manage.py runserver 0.0.0.0:8000
 - Включается переменной окружения `DJANGO_API_KEY` (см. `settings.py`). Если ключ не задан, API возвращает 401.
 - Клиент передаёт ключ либо в заголовке `X-API-Key: <ключ>`, либо как параметр `?api_key=<ключ>`.
 
-Поддерживаются 3 способа передачи ключа:
+Поддерживаются 2 способа передачи ключа:
 - В URL: `/api/games/<API_KEY>/` — удобно для быстрой проверки
-- В заголовке: `X-API-Key: <API_KEY>` — предпочтительно для клиентов
-- В query-параметре: `?api_key=<API_KEY>` — для отладки
+- В query-параметре: `?api_key=<API_KEY>`
 
 Примеры (PowerShell):
 
@@ -42,10 +41,6 @@ python manage.py runserver 0.0.0.0:8000
 # Запуск локально с ключом в этой сессии
 $env:DJANGO_API_KEY = 'ваш-длинный-случайный-ключ'
 python manage.py runserver
-
-# Запросы с ключом в заголовке
-curl http://localhost:8000/api/games/ -H "X-API-Key: ваш-длинный-случайный-ключ"
-curl http://localhost:8000/api/games/1/ -H "X-API-Key: ваш-длинный-случайный-ключ"
 
 # Или в query-параметре
 curl "http://localhost:8000/api/games/?api_key=ваш-длинный-случайный-ключ"

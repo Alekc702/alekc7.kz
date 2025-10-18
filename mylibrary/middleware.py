@@ -19,8 +19,8 @@ class ApiKeyMiddleware:
             if not configured:
                 return JsonResponse({'detail': 'API access disabled'}, status=401)
 
-            # Try header or query first
-            provided = request.headers.get('X-API-Key') or request.META.get('HTTP_X_API_KEY') or request.GET.get('api_key') or ''
+            # Try query param first (no header-based key support)
+            provided = request.GET.get('api_key') or ''
 
             # Also support path token for games list: /api/games/<key> or /api/games/<key>/
             if not provided and (path.startswith('/api/games/') and len(path) > len('/api/games/')):

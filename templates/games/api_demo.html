@@ -8,11 +8,12 @@
 <div style="max-width: 720px;">
   <label for="apiKey">API Key</label>
   <input id="apiKey" type="password" class="form-control" placeholder="введите ваш ключ" />
-  <small>Ключ передаётся в заголовке X-API-Key.</small>
+  <small>Ключ передаётся в пути /api/games/&lt;KEY&gt;/ или как ?api_key=KEY.</small>
 
-  <div style="margin-top: 12px; display: flex; gap: 8px;">
-    <button id="btnTest" class="btn btn-primary">Запросить список игр</button>
-    <button id="btnTestId" class="btn btn-secondary">Запросить игру c ID=1</button>
+  <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+    <button id="btnTestPath" class="btn btn-primary">Список (ключ в пути)</button>
+    <button id="btnTestQuery" class="btn btn-secondary">Список (ключ в query)</button>
+    <button id="btnTestIdQuery" class="btn btn-secondary">Игра ID=1 (ключ в query)</button>
   </div>
 
   <pre id="output" style="margin-top: 16px; white-space: pre-wrap; background: #111; color: #ddd; padding: 12px; border-radius: 4px; min-height: 120px;"></pre>
@@ -27,10 +28,8 @@
 
   async function callApi(url){
     out.textContent = 'Выполняется запрос: ' + url + '...';
-    const apiKey = keyInput.value.trim();
-    const headers = apiKey ? { 'X-API-Key': apiKey } : {};
     try {
-      const res = await fetch(url, { headers });
+      const res = await fetch(url);
       const text = await res.text();
       out.textContent = 'Статус: ' + res.status + '\n' + text;
     } catch (e) {
@@ -38,11 +37,17 @@
     }
   }
 
-  btn.addEventListener('click', function(){
-    callApi('/api/games/');
+  document.getElementById('btnTestPath').addEventListener('click', function(){
+    const apiKey = keyInput.value.trim();
+    callApi('/api/games/' + encodeURIComponent(apiKey) + '/');
   });
-  btnId.addEventListener('click', function(){
-    callApi('/api/games/1/');
+  document.getElementById('btnTestQuery').addEventListener('click', function(){
+    const apiKey = keyInput.value.trim();
+    callApi('/api/games/?api_key=' + encodeURIComponent(apiKey));
+  });
+  document.getElementById('btnTestIdQuery').addEventListener('click', function(){
+    const apiKey = keyInput.value.trim();
+    callApi('/api/games/1/?api_key=' + encodeURIComponent(apiKey));
   });
 })();
 </script>

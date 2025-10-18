@@ -4,10 +4,7 @@ from django.http import JsonResponse, HttpRequest, HttpResponse
 
 
 def _extract_api_key(request: HttpRequest) -> str:
-    """Return API key from header 'X-API-Key' or query param 'api_key'."""
-    header_key = request.headers.get('X-API-Key') or request.META.get('HTTP_X_API_KEY')
-    if header_key:
-        return header_key.strip()
+    """Return API key only from query param 'api_key'."""
     return (request.GET.get('api_key') or '').strip()
 
 
