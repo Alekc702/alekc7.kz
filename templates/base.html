@@ -31,7 +31,11 @@
                 <a href="{% url 'index' %}">Все игры</a>
                 <a href="{% url 'books_index' %}">Все книги</a>
                 {% if user.is_authenticated %}
-                    <a href="{% url 'game_create' %}">Добавить игру</a>
+                    {% if request.path|slice:":7" == '/books/' %}
+                        <a href="{% url 'book_create' %}">Добавить книгу</a>
+                    {% else %}
+                        <a href="{% url 'game_create' %}">Добавить игру</a>
+                    {% endif %}
                 {% endif %}
             </div>
             <div class="nav-right">

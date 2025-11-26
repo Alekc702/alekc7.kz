@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from .models import Book, Author, Category
+from .forms import BookForm
 
 
 def books_index(request):
@@ -27,3 +29,18 @@ def books_index(request):
 def book_detail(request, pk):
     book = get_object_or_404(Book, pk=pk)
     return render(request, 'books/detail.html', {'book': book})
+
+
+@login_required
+def book_create(request):
+    """Создание новой книги через сайт (только для авторизованных пользователей)."""
+    if request.method == 'POST':
+        form = BookForm(request.POST, request.FILES)
+        if form.is_valid():
+            book = form.save()
+            return redirect('book_detail', pk=book.pk)
+    else:
+        form = BookForm()
+
+    context = {'form': form, 'action': 'Создать'}
+    return render(request, 'books/form.html', context)

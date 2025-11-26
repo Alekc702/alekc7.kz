@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ action }} книгу - Энциклопедия{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>{{ action }} книгу</h1>
+
+    <form method="POST" enctype="multipart/form-data" id="bookForm">
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <div class="form-errors">
+                <p>Пожалуйста, исправьте следующие ошибки:</p>
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ field.label }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}:</label>
+            {{ form.title }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}:</label>
+            {{ form.description }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.category.id_for_label }}">{{ form.category.label }}:</label>
+            {{ form.category }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.authors.id_for_label }}">{{ form.authors.label }}:</label>
+            {{ form.authors }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.cover.id_for_label }}">{{ form.cover.label }}:</label>
+            {{ form.cover }}
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">💾 Сохранить</button>
+            <a href="{% url 'books_index' %}" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
