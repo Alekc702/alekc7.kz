@@ -20,7 +20,7 @@ python manage.py runserver 0.0.0.0:8000
 ```
 
 ## Что внутри
-- Приложения: `games`, `users`
+- Приложения: `games`, `users`, 'books'
 - Шаблоны: наследование от `templates/base.html`, страницы списка/детали/форм
 - Статика: `static/` (CSS/JS/изображения), WhiteNoise
 - Медиа: `MEDIA_ROOT` (локально `media/`, в проде `/var/data/media`), загрузка обложек в `game_covers/`
