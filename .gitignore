@@ -4,7 +4,53 @@ __pycache__/
 db.sqlite3
 .env
 node_modules/
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+
+# Distribution / packaging
+build/
+dist/
+eggs/
+.eggs/
+*.egg-info/
+
+# Django
+db.sqlite3
+media/
+staticfiles/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
 *.log
+
+# Node
+node_modules/
+
+# Local env file
+.env
+
 .vscode/
 # Python
 *.py[cod]

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Все книги по играм - Энциклопедия{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h1>📚 Все книги по играм</h1>
+    <p class="hero-subtitle">Каталог книг, связанных с разработкой и геймдизайном</p>
+</div>
+
+<!-- Inline styles removed: using global `static/css/style.css` enhancements -->
+
+<!-- Filters for books (author / category) -->
+<div class="filters-container">
+    <h2>Фильтры</h2>
+    <form method="GET" class="filters-form">
+        <div class="filter-group">
+            <label for="author">Автор:</label>
+            <select name="author" id="author" class="filter-select">
+                <option value="">Все авторы</option>
+                {% for author in book_authors %}
+                    <option value="{{ author.id }}" {% if selected_author == author.id|stringformat:"s" %}selected{% endif %}>{{ author.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label for="category">Категория:</label>
+            <select name="category" id="category" class="filter-select">
+                <option value="">Все категории</option>
+                {% for cat in book_categories %}
+                    <option value="{{ cat.id }}" {% if selected_category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="filter-actions">
+            <button type="submit" class="btn btn-primary">Применить</button>
+            <a href="{% url 'books_index' %}" class="btn btn-secondary">Сбросить</a>
+        </div>
+    </form>
+</div>
+
+<div class="books-count">
+    <p>Всего книг: <strong>{{ books.count }}</strong></p>
+</div>
+
+{% if books %}
+    <div class="games-grid">
+        {% for book in books %}
+            <div class="game-card">
+                {% if book.cover %}
+                    <img src="{{ book.cover.url }}" alt="{{ book.title }}" data-fallback="{% static 'images/placeholder_cover.svg' %}" onerror="this.onerror=null; this.src=this.dataset.fallback;">
+                {% else %}
+                    <div class="game-placeholder">
+                        <span>📘</span>
+                    </div>
+                {% endif %}
+                <div class="game-card-content">
+                    <h3><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></h3>
+                    {% if book.authors.all %}
+                        <p class="book-authors">✍️ {% for a in book.authors.all %}{{ a.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                    {% endif %}
+                    {% if book.category %}<p class="book-category">🏷️ {{ book.category.name }}</p>{% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="no-results">
+        <p>Книги не найдены.</p>
+    </div>
+{% endif %}
+
+{% endblock %}

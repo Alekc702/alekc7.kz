@@ -25,5 +25,6 @@ if (settings.DEBUG or not USE_S3) and settings.MEDIA_URL.startswith('/'):
 # App routes come after media to ensure media takes precedence
 urlpatterns += [
     path('', include('games.urls')),
+    path('books/', include('books.urls')),
     path('users/', include('users.urls')),
 ]

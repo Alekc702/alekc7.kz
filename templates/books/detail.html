@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ book.title }} — Книга{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+    <div class="detail-header">
+        <h1>{{ book.title }}</h1>
+        {% if book.created_at %}<p class="game-year-large">Добавлено: {{ book.created_at|date:"d.m.Y" }}</p>{% endif %}
+    </div>
+
+    <div class="detail-content">
+        <div class="detail-image">
+            {% if book.cover %}
+                <img src="{{ book.cover.url }}" alt="{{ book.title }}" data-fallback="{% static 'images/placeholder_cover.svg' %}" onerror="this.onerror=null; this.src=this.dataset.fallback;">
+            {% else %}
+                <div class="game-placeholder-large">
+                    <span>📘</span>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="detail-info">
+            <div class="info-section">
+                <h2>📋 Описание</h2>
+                <p>{{ book.description }}</p>
+            </div>
+
+            {% if book.authors.all %}
+                <div class="info-section">
+                    <h2>✍️ Авторы</h2>
+                    <p>{% for a in book.authors.all %}<strong>{{ a.name }}</strong>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                </div>
+            {% endif %}
+
+            {% if book.category %}
+                <div class="info-section">
+                    <h2>🏷️ Категория</h2>
+                    <p>{{ book.category.name }}</p>
+                </div>
+            {% endif %}
+
+            <div class="info-section metadata">
+                <p><small>Добавлено: {{ book.created_at|date:"d.m.Y H:i" }}</small></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a href="{% url 'books_index' %}" class="btn btn-secondary">← Назад к списку</a>
+        <a href="/" class="btn btn-info" target="_blank">Главная</a>
+    </div>
+</div>
+{% endblock %}
+

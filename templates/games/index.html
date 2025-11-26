@@ -13,6 +13,8 @@
     <p class="hero-subtitle">Откройте для себя лучшие игры, студии и технологии разработки</p>
 </div>
 
+<!-- Header has primary navigation; no inline tabs here -->
+
 <!-- Фильтры -->
 <div class="filters-container">
     <h2>Фильтры</h2>
@@ -53,6 +55,8 @@
             </select>
         </div>
 
+        <!-- Book-specific filters removed from the games page. Use the Books page for book filtering. -->
+
         <div class="filter-actions">
             <button type="submit" class="btn btn-primary">Применить</button>
             <a href="{% url 'index' %}" class="btn btn-secondary">Сбросить</a>
@@ -60,13 +64,14 @@
     </form>
 </div>
 
-<!-- Счетчик игр -->
-<div class="games-count">
-    <p>Найдено игр: <strong>{{ games.count }}</strong></p>
-</div>
+<!-- Счётчик -->
+<!-- Счётчик -->
+    <div class="games-count">
+        <p>Найдено игр: <strong>{{ games.count }}</strong></p>
+    </div>
 
 <!-- Сетка игр -->
-{% if games %}
+    {% if games %}
     <div class="games-grid">
         {% for game in games %}
             <div class="game-card" data-game-id="{{ game.id }}">
@@ -95,10 +100,10 @@
             </div>
         {% endfor %}
     </div>
-{% else %}
-    <div class="no-results">
-        <p>😔 Игры не найдены. Попробуйте изменить фильтры или <a href="{% url 'index' %}">сбросить</a> их.</p>
-    </div>
-{% endif %}
+    {% else %}
+        <div class="no-results">
+            <p>😔 Игры не найдены. Попробуйте изменить фильтры или <a href="{% url 'index' %}">сбросить</a> их.</p>
+        </div>
+    {% endif %}
 {% endblock %}
 

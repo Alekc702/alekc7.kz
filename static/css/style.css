@@ -32,6 +32,16 @@ body {
     flex-direction: column;
 }
 
+/* Page background enhancement */
+body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse at top left, rgba(99,102,241,0.06), transparent 15%), radial-gradient(ellipse at bottom right, rgba(139,92,246,0.05), transparent 20%);
+    pointer-events: none;
+    z-index: 0;
+}
+
 /* Disable animations/transitions when requested (e.g., after filter change) */
 html.no-animations *, html.no-animations *::before, html.no-animations *::after {
     animation: none !important;
@@ -80,6 +90,13 @@ header nav {
     align-items: center;
     flex-wrap: wrap;
     gap: 1rem;
+}
+
+.nav-left a { color: rgba(255,255,255,0.92); }
+.nav-left a:hover { color: #fff; }
+.nav-left .logo { font-weight: 800; letter-spacing: -0.5px; }
+.nav-left a.active {
+    box-shadow: inset 0 -3px 0 rgba(255,255,255,0.18);
 }
 
 .nav-left, .nav-right {
@@ -136,6 +153,8 @@ main {
     flex: 1;
     animation: fadeIn 0.6s ease-out;
 }
+
+main { position: relative; z-index: 1; }
 
 /* Footer */
 .site-footer {
@@ -211,6 +230,12 @@ main {
     margin-bottom: 2rem;
     animation: slideInLeft 0.6s ease-out;
 }
+
+.hero-section {
+    box-shadow: 0 10px 30px rgba(99,102,241,0.06);
+}
+
+.hero-section h1 { font-size: 3.25rem; }
 
 .hero-section h1 {
     font-size: 3rem;
@@ -320,6 +345,93 @@ main {
     gap: 2rem;
     margin-top: 2rem;
 }
+
+/* Ensure cards align to top and have consistent heights */
+.games-grid { align-items: start; }
+.game-card { display:flex; flex-direction:column; height:100%; }
+.game-card img, .book-card img { width:100%; height:260px; object-fit:cover }
+.game-placeholder, .book-placeholder { height:260px }
+.game-card-content { flex:1; display:flex; flex-direction:column; justify-content:space-between }
+
+/* Slightly bigger, softer shadows and hover lift */
+.game-card { box-shadow: 0 8px 30px rgba(15,23,42,0.06); border-radius: 14px; transition: transform 0.35s cubic-bezier(.2,.9,.3,1), box-shadow 0.35s; }
+.game-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(15,23,42,0.12); }
+
+/* Card content styles */
+.game-card h3 { font-size: 1.15rem; color: var(--text-dark); }
+.game-card p { color: var(--text-light); }
+
+/* Improve link appearance inside cards */
+.game-card h3 a { color: var(--primary-dark); font-weight:600 }
+
+/* Responsive tweak */
+@media (max-width: 800px) {
+    .hero-section h1 { font-size: 2rem }
+    .game-card img, .book-card img { height:200px }
+}
+
+/* Books Grid (similar to games but tuned for larger covers) */
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.book-card {
+    background: var(--bg-white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-md);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    animation: gameCardFadeIn 0.5s ease-out backwards;
+}
+
+.book-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.book-card:hover::before { transform: scaleX(1); }
+
+.book-card img {
+    width: 100%;
+    height: 360px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.book-card:hover img { transform: scale(1.02); }
+
+.book-placeholder {
+    width: 100%;
+    height: 360px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
+}
+
+.book-card-content {
+    padding: 1.25rem;
+}
+
+.book-card h3 { margin: 0 0 0.5rem 0; font-size: 1.2rem; font-weight: 600; }
+
+.book-card h3 a { text-decoration: none; color: var(--text-dark); transition: color 0.3s ease; }
+.book-card h3 a:hover { color: var(--primary-color); }
+
+.book-authors, .book-category { color: var(--text-light); font-size: 0.95rem; margin: 0.25rem 0; }
 
 /* Game Card Styles */
 .game-card {

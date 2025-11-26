@@ -3,6 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from .models import Game, Studio, Engine, Platform
+try:
+    from books.models import Book
+except Exception:
+    Book = None
 from .utils import api_key_required
 from .forms import GameForm, StudioForm
 
@@ -10,6 +14,8 @@ from .forms import GameForm, StudioForm
 def index(request):
     """Главная страница со списком игр"""
     games = Game.objects.all().select_related('studio', 'engine').prefetch_related('platforms')
+    # Also load books for optional tab on the main page (kept simple)
+    books = Book.objects.all() if Book is not None else None
     
     # Фильтрация
     studio_filter = request.GET.get('studio')
@@ -22,12 +28,15 @@ def index(request):
         games = games.filter(engine_id=engine_filter)
     if year_filter:
         games = games.filter(release_year=year_filter)
+    # (Books are not filtered here; books have their own list page with filters)
     
     context = {
         'games': games,
+        'books': books,
         'studios': Studio.objects.all(),
         'engines': Engine.objects.all(),
         'years': Game.objects.values_list('release_year', flat=True).distinct().order_by('-release_year'),
+        # No 'show' param here — books have their own page
     }
     return render(request, 'games/index.html', context)
 
